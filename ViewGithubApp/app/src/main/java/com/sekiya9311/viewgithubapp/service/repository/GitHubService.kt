@@ -14,6 +14,6 @@ interface GitHubService {
     fun getProject(@Path("user") user: String, @Path("repoName") repoName: String): Call<Project>
 
     companion object {
-        val HTTPS_API_GITHUB_URL = "https://api.github.com/"
+        const val HTTPS_API_GITHUB_URL = "https://api.github.com/"
     }
 }
