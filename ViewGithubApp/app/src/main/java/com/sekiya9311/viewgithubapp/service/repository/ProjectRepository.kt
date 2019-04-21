@@ -11,8 +11,9 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ProjectRepository private  constructor() {
+class ProjectRepository private constructor() {
     private val githubService: GitHubService
+
     init {
         val gson = GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -27,7 +28,7 @@ class ProjectRepository private  constructor() {
 
     fun getReposById(userId: String): LiveData<List<Project>> {
         return MutableLiveData<List<Project>>().also {
-            githubService.getRepos(userId).enqueue(object: Callback<List<Project>> {
+            githubService.getRepos(userId).enqueue(object : Callback<List<Project>> {
                 override fun onFailure(call: Call<List<Project>>, t: Throwable) {
                     it.postValue(listOf())
                 }
