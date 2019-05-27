@@ -9,10 +9,10 @@ namespace SolidPractice.SingleResponsibilityPrinciple.Bad
 {
     public class PersonConverter
     {
-        public void CsvToJson(Stream inputStream, Stream outputStream)
+        public void Convert(Stream inputStream, Stream outputStream)
         {
             // 入力ストリームからCSVデータの読み取り
-            var lines = InputCsvPersonFromStream(inputStream);
+            var lines = InputFromStream(inputStream);
 
             // CSVデータを解析し、Entityに変換
             var persons = ParseToPersonEntity(lines);
@@ -21,7 +21,7 @@ namespace SolidPractice.SingleResponsibilityPrinciple.Bad
             OutputPersonsToStream(persons, outputStream);
         }
 
-        private IEnumerable<string> InputCsvPersonFromStream(Stream stream)
+        private IEnumerable<string> InputFromStream(Stream stream)
         {
             using (var reader = new StreamReader(stream))
             {
