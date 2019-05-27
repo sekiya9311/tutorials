@@ -15,10 +15,10 @@ namespace SolidPractice.SingleResponsibilityPrinciple.Bad
             var lines = InputCsvPersonFromStream(inputStream);
 
             // CSVデータを解析し、Entityに変換
-            var persons = ParseCsvToPersonEntity(lines);
+            var persons = ParseToPersonEntity(lines);
 
             // Entityデータをjsonに変換し出力ストリームに出力
-            OutputPersonsToStreamInJson(persons, outputStream);
+            OutputPersonsToStream(persons, outputStream);
         }
 
         private IEnumerable<string> InputCsvPersonFromStream(Stream stream)
@@ -36,7 +36,7 @@ namespace SolidPractice.SingleResponsibilityPrinciple.Bad
             }
         }
 
-        private IEnumerable<Person> ParseCsvToPersonEntity(IEnumerable<string> lines)
+        private IEnumerable<Person> ParseToPersonEntity(IEnumerable<string> lines)
         {
             foreach (var line in lines)
             {
@@ -71,7 +71,7 @@ namespace SolidPractice.SingleResponsibilityPrinciple.Bad
             }
         }
 
-        private void OutputPersonsToStreamInJson(IEnumerable<Person> persons, Stream stream)
+        private void OutputPersonsToStream(IEnumerable<Person> persons, Stream stream)
         {
             using (var writer = new StreamWriter(stream))
             {
