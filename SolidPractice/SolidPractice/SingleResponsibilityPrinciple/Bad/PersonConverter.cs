@@ -12,18 +12,32 @@ namespace SolidPractice.SingleResponsibilityPrinciple.Bad
         public void CsvToJson(Stream inputStream, Stream outputStream)
         {
             // 入力ストリームからCSVデータの読み取り
-            var lines = new List<string>();
-            using (var reader = new StreamReader(inputStream))
+            var lines = InputCsvPersonFromStream(inputStream);
+
+            // CSVデータを解析し、Entityに変換
+            var persons = ParseCsvToPersonEntity(lines);
+
+            // Entityデータをjsonに変換し出力ストリームに出力
+            OutputPersonsToStreamInJson(persons, outputStream);
+        }
+
+        private IEnumerable<string> InputCsvPersonFromStream(Stream stream)
+        {
+            using (var reader = new StreamReader(stream))
             {
+                var lines = new List<string>();
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
                     lines.Add(line);
                 }
+                // Streamで遅延処理はなんか怖い
+                return lines;
             }
+        }
 
-            // CSVデータを解析し、Entityに変換
-            var persons = new List<Person>();
+        private IEnumerable<Person> ParseCsvToPersonEntity(IEnumerable<string> lines)
+        {
             foreach (var line in lines)
             {
                 var fields = line.Split(",".ToCharArray());
@@ -56,11 +70,14 @@ namespace SolidPractice.SingleResponsibilityPrinciple.Bad
                     Height = height,
                     Weight = weight
                 };
-                persons.Add(person);
+                
+                yield return person;
             }
+        }
 
-            // Entityデータをjsonに変換し出力ストリームに出力
-            using (var writer = new StreamWriter(outputStream))
+        private void OutputPersonsToStreamInJson(IEnumerable<Person> persons, Stream stream)
+        {
+            using (var writer = new StreamWriter(stream))
             {
                 var personArrayOfJson = JsonConvert.SerializeObject(persons);
                 writer.WriteLine(personArrayOfJson);
