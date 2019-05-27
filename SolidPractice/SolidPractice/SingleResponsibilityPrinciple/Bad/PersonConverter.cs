@@ -44,22 +44,18 @@ namespace SolidPractice.SingleResponsibilityPrinciple.Bad
 
                 if (fields.Length != 4)
                 {
-                    Console.WriteLine("invalid");
                     continue;
                 }
                 if (!int.TryParse(fields[1], out var age))
                 {
-                    Console.WriteLine("invalid");
                     continue;
                 }
                 if (!double.TryParse(fields[2], out var height))
                 {
-                    Console.WriteLine("invalid");
                     continue;
                 }
                 if (!double.TryParse(fields[3], out var weight))
                 {
-                    Console.WriteLine("invalid");
                     continue;
                 }
 
