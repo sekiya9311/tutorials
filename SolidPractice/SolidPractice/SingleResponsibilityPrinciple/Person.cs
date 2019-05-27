@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SolidPractice.SingleResponsibilityPrinciple
 {
-    class Person
+    public class Person
     {
         public string Name { get; set; }
         public int Age { get; set; }
