@@ -11,6 +11,15 @@ namespace SolidPractice.SingleResponsibilityPrinciple.Bad
     {
         public void Convert(Stream inputStream, Stream outputStream)
         {
+            if (inputStream is null)
+            {
+                throw new ArgumentNullException(nameof(inputStream));
+            }
+            if (outputStream is null)
+            {
+                throw new ArgumentNullException(nameof(outputStream));
+            }
+
             // 入力ストリームからCSVデータの読み取り
             var lines = InputFromStream(inputStream);
 
