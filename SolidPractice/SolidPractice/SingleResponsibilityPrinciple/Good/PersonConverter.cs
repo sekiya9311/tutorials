@@ -18,6 +18,19 @@ namespace SolidPractice.SingleResponsibilityPrinciple.Good
             IPersonParser parser,
             IPersonOutputter outputter)
         {
+            if (inputter is null)
+            {
+                throw new ArgumentNullException(nameof(inputter));
+            }
+            if (parser is null)
+            {
+                throw new ArgumentNullException(nameof(parser));
+            }
+            if (outputter is null)
+            {
+                throw new ArgumentNullException(nameof(outputter));
+            }
+
             _inputter = inputter;
             _parser = parser;
             _outputter = outputter;
