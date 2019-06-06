@@ -12,7 +12,7 @@ namespace SolidPractice.Tests
 {
     public class SingleResponsibilityPrincipleTest
     {
-        private static readonly string[] inputs = new[] { "hoge,10,12.3,45,6", "a", "fuga,21,65.4,32.1" };
+        private static readonly string[] inputs = new[] { "hoge,10,12.3,45,6", "fuga,21,65.4,32.1", "a" };
         private static readonly string[] tmpStrArray = new[] { "a", "i", "u", "e", "o" };
         private static readonly Person[] tmpPersonArray = new[]
         {
@@ -66,16 +66,20 @@ namespace SolidPractice.Tests
             var validator = new Mock<IPersonValidator>();
             var mapper = new Mock<IPersonMapper>();
 
-            var tmpIn = tmpStrArray[0].Split(",");
-            var tmpOut = tmpPersonArray
-                .Concat(tmpPersonArray)
-                .Concat(tmpPersonArray);
+            var tmpIn = inputs[0].Split(",");
+            var tmpOut = tmpPersonArray.Concat(tmpPersonArray);
             splitter
-                .Setup(s => s.Split(It.IsAny<string>()))
+                .Setup(s => s.Split(It.IsIn(inputs.SkipLast(1))))
                 .Returns(tmpIn);
+            splitter
+                .Setup(s => s.Split(inputs.Last()))
+                .Returns(new[] { inputs.Last() });
             validator
                 .Setup(v => v.Validate(tmpIn))
                 .Returns(true);
+            validator
+                .Setup(v => v.Validate(new[] { inputs.Last() }))
+                .Returns(false);
             mapper
                 .Setup(m => m.Map(tmpIn))
                 .Returns(tmpPersonArray[0]);
