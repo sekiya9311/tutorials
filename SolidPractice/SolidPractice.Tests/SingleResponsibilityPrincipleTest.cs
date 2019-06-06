@@ -82,7 +82,7 @@ namespace SolidPractice.Tests
             var parser = new PersonParserPlain(splitter.Object, validator.Object, mapper.Object);
             var res = parser.ParseToPersonEntity(inputs);
 
-            Assert.Equal(res, tmpOut);
+            Assert.Equal(tmpOut, res);
 
             Assert.Throws<ArgumentNullException>("splitter", () =>
             {
