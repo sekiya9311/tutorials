@@ -45,18 +45,12 @@ namespace SolidPractice.Tests
             parser.Verify(p => p.ParseToPersonEntity(tmpStrArray), Times.Once);
             outputter.Verify(o => o.OutputPersons(tmpPersonArray), Times.Once);
 
-            Assert.Throws<ArgumentNullException>("inputter", () =>
-            {
-                var tmp = new PersonConverter(null, parser.Object, outputter.Object);
-            });
-            Assert.Throws<ArgumentNullException>("parser", () =>
-            {
-                var tmp = new PersonConverter(inputter.Object, null, outputter.Object);
-            });
-            Assert.Throws<ArgumentNullException>("outputter", () =>
-            {
-                var tmp = new PersonConverter(inputter.Object, parser.Object, null);
-            });
+            Assert.Throws<ArgumentNullException>(
+                "inputter", () => new PersonConverter(null, parser.Object, outputter.Object));
+            Assert.Throws<ArgumentNullException>(
+                "parser", () => new PersonConverter(inputter.Object, null, outputter.Object));
+            Assert.Throws<ArgumentNullException>(
+                "outputter", () => new PersonConverter(inputter.Object, parser.Object, null));
         }
 
         [Fact]
@@ -88,18 +82,12 @@ namespace SolidPractice.Tests
 
             Assert.Equal(tmpOut, res);
 
-            Assert.Throws<ArgumentNullException>("splitter", () =>
-            {
-                var tmp = new PersonParserPlain(null, validator.Object, mapper.Object);
-            });
-            Assert.Throws<ArgumentNullException>("validator", () =>
-            {
-                var tmp = new PersonParserPlain(splitter.Object, null, mapper.Object);
-            });
-            Assert.Throws<ArgumentNullException>("mapper", () =>
-            {
-                var tmp = new PersonParserPlain(splitter.Object, validator.Object, null);
-            });
+            Assert.Throws<ArgumentNullException>(
+                "splitter", () => new PersonParserPlain(null, validator.Object, mapper.Object));
+            Assert.Throws<ArgumentNullException>(
+                "validator", () => new PersonParserPlain(splitter.Object, null, mapper.Object));
+            Assert.Throws<ArgumentNullException>(
+                "mapper", () => new PersonParserPlain(splitter.Object, validator.Object, null));
         }
     }
 }
