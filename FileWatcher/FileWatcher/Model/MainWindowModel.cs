@@ -8,7 +8,7 @@ using Reactive.Bindings;
 
 namespace FileWatcher.Model
 {
-    class MainWindowModel
+    class MainWindowModel : IDisposable
     {
 
         private readonly string DirectoryPath = Directory.GetCurrentDirectory();
@@ -21,6 +21,11 @@ namespace FileWatcher.Model
             {
                 EnableRaisingEvents = true
             };
+        }
+
+        public void Dispose()
+        {
+            Watcher?.Dispose();
         }
     }
 }

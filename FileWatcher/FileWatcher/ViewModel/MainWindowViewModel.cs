@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
+using System.Reactive.Disposables;
+using Reactive.Bindings.Extensions;
+using System.ComponentModel;
 using Reactive.Bindings;
 
 using FileWatcher.Model;
@@ -11,15 +14,19 @@ using FileWatcher.Util;
 
 namespace FileWatcher.ViewModel
 {
-    class MainWindowViewModel
+    class MainWindowViewModel : INotifyPropertyChanged, IDisposable
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private readonly MainWindowModel _model;
+        private readonly CompositeDisposable _disposeable;
 
         public ReadOnlyReactiveProperty<string> WatchFileState { get; }
 
         public MainWindowViewModel()
         {
             _model = new MainWindowModel();
+            _disposeable = new CompositeDisposable();
 
             WatchFileState = Observable.Merge(
                 _model.Watcher.CreatedToObservable(),
@@ -42,7 +49,14 @@ namespace FileWatcher.ViewModel
                         default:
                             return "知らない子ですね";
                     }
-                }).ToReadOnlyReactiveProperty();
+                }).ToReadOnlyReactiveProperty()
+                .AddTo(_disposeable);
+        }
+
+        public void Dispose()
+        {
+            _disposeable?.Dispose();
+            _model.Dispose();
         }
     }
 }
